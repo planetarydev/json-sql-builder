@@ -4,7 +4,7 @@
   "description": "SQLBuilder to translate json dataformat like mongo to SQL",
   "main": "index.js",
   "scripts": {
-    "test": "test.js"
+    "test": "mocha test/"
   },
   "keywords": [
     "sql",
@@ -15,5 +15,19 @@
     "translate"
   ],
   "author": "planetarydev",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "chai": "^4.1.1",
+    "lodash": "^4.17.4",
+    "mocha": "^3.5.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/planetarydev/pure-sqlbuilder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/planetarydev/pure-sqlbuilder/issues"
+  },
+  "homepage": "https://github.com/planetarydev/pure-sqlbuilder#readme"
 }
