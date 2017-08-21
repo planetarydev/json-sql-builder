@@ -1,0 +1,19 @@
+{
+  "name": "pure-sqlbuilder",
+  "version": "1.0.0",
+  "description": "SQLBuilder to translate json dataformat like mongo to SQL",
+  "main": "index.js",
+  "scripts": {
+    "test": "test.js"
+  },
+  "keywords": [
+    "sql",
+    "mysql",
+    "mongo",
+    "json",
+    "build",
+    "translate"
+  ],
+  "author": "planetarydev",
+  "license": "MIT"
+}
