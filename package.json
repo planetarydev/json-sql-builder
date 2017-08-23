@@ -21,7 +21,9 @@
     "lodash": "^4.17.4",
     "mocha": "^3.5.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^4.5.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/planetarydev/pure-sqlbuilder.git"
