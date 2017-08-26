@@ -37,16 +37,15 @@ var totalSalaryQuery = sqlbuilder.build({
 	}
 });
 
-// the query-object just created can directly used for the NPM mysql package
-mysql.query(totalSalaryQuery, function(err, results){
-	[ ... ]
-});
-
-
+// the query-result just created can directly passed to the NPM mysql package
+// mysql.query(totalSalaryQuery, function(err, results){
+//	  [ ... ]
+// });
 ```
 
 **Result**
 ```javascript
+
 totalSalaryQuery = {
 	sql: 'Your SQL-query-string'
 	values: ['Array', 'with', 'all', 'Query-values']
@@ -54,8 +53,19 @@ totalSalaryQuery = {
 }
 
 // totalSalaryQuery.sql
-SELECT `job_title`, SUM(`salary`) AS `total_salary` FROM `people` WHERE `job_title` IN(?, ?) AND `age` >= ? AND `country_code` = ? GROUP BY `job_title`
+SELECT
+	`job_title`,
+	SUM(`salary`) AS `total_salary`
+FROM
+	`people`
+WHERE
+	`job_title` IN (?, ?)
+AND `age` >= ?
+AND `country_code` = ?
+GROUP BY
+	`job_title`
 
 // totalSalaryQuery.values
 ['Sales Manager', 'Account Manager', 18, 'US']
+
 ```
