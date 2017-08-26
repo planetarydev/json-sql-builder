@@ -1,6 +1,6 @@
 {
   "name": "json-sql-builder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "SQLBuilder to translate JSON dataformat like mongo to SQL",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,7 @@
     "json",
     "build",
     "translate",
-	"postgre"
+    "postgre"
   ],
   "author": "planetarydev",
   "license": "MIT",
@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "chai": "^4.1.1",
-	"mocha": "^3.5.0",
+    "mocha": "^3.5.0",
     "eslint": "^4.5.0"
   },
   "repository": {
