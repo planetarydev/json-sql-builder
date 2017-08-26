@@ -1,4 +1,4 @@
-# json-sql
+# json-sql-builder
 
 Writing your SQL-Queries in a way like mongo. Use JSON to define all the queries you like to run.
 
