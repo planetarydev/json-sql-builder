@@ -13,7 +13,7 @@
         "highlightjs": {
             "theme": "github"
         },
-        "git": "https://github.com/planetarydev/json-sql-builder/blob/master/",
+        "git": "http://github.com/planetarydev/json-sql-builder/blob/master/",
         "README.md": true,
         "includes": [
             {   "displayName": "Licence",
