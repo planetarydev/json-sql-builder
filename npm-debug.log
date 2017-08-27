@@ -1,0 +1,60 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'version', '1.0.4' ]
+2 info using npm@3.8.6
+3 info using node@v5.12.0
+4 info git [ 'status', '--porcelain' ]
+5 verbose stack Error: Git working directory not clean.
+5 verbose stack M docs/Api-SQLBuilder.html
+5 verbose stack M docs/Querying-Aggregation.html
+5 verbose stack M docs/Querying-Basics.html
+5 verbose stack M docs/Querying-Comparison.html
+5 verbose stack M docs/Querying-Logical.html
+5 verbose stack M docs/data.json
+5 verbose stack M docs/index.html
+5 verbose stack M docs/lib/style/style.css
+5 verbose stack M docs/licence.html
+5 verbose stack M docs/roadmap.html
+5 verbose stack M lib/ansi/operators/basic.js
+5 verbose stack M lib/ansi/select.js
+5 verbose stack M lib/mysql/index.js
+5 verbose stack M lib/mysql/select.js
+5 verbose stack M test/ansi/select.js
+5 verbose stack M test/mysql/mysql.js
+5 verbose stack M test/mysql/select-mysql.js
+5 verbose stack M test/postgreSQL/pgsql.js
+5 verbose stack     at /usr/lib/node_modules/npm/lib/version.js:246:19
+5 verbose stack     at ChildProcess.exithandler (child_process.js:193:7)
+5 verbose stack     at emitTwo (events.js:100:13)
+5 verbose stack     at ChildProcess.emit (events.js:185:7)
+5 verbose stack     at maybeClose (internal/child_process.js:850:16)
+5 verbose stack     at Socket.<anonymous> (internal/child_process.js:323:11)
+5 verbose stack     at emitOne (events.js:90:13)
+5 verbose stack     at Socket.emit (events.js:182:7)
+5 verbose stack     at Pipe._onclose (net.js:484:12)
+6 verbose cwd /home/rene/nodejs/json-sql-builder
+7 error Linux 4.4.0-92-generic
+8 error argv "/usr/bin/nodejs" "/usr/bin/npm" "version" "1.0.4"
+9 error node v5.12.0
+10 error npm  v3.8.6
+11 error Git working directory not clean.
+11 error M docs/Api-SQLBuilder.html
+11 error M docs/Querying-Aggregation.html
+11 error M docs/Querying-Basics.html
+11 error M docs/Querying-Comparison.html
+11 error M docs/Querying-Logical.html
+11 error M docs/data.json
+11 error M docs/index.html
+11 error M docs/lib/style/style.css
+11 error M docs/licence.html
+11 error M docs/roadmap.html
+11 error M lib/ansi/operators/basic.js
+11 error M lib/ansi/select.js
+11 error M lib/mysql/index.js
+11 error M lib/mysql/select.js
+11 error M test/ansi/select.js
+11 error M test/mysql/mysql.js
+11 error M test/mysql/select-mysql.js
+11 error M test/postgreSQL/pgsql.js
+12 error If you need help, you may report this error at:
+12 error     <https://github.com/npm/npm/issues>
+13 verbose exit [ 1, true ]

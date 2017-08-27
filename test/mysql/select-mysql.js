@@ -18,7 +18,7 @@ describe('MySQL Query Operators', function() {
 							'job_title',
 							{ total_salary: { $sum: 'salary' } }
 						],
-						$table: 'people',
+						$from: 'people',
 						$groupBy: ['job_title'],
 						$calcFoundRows: true,
 						$rollup: true
@@ -39,7 +39,7 @@ describe('MySQL Query Operators', function() {
 							'job_title',
 							{ total_salary: { $sum: 'salary' } }
 						],
-						$table: 'people',
+						$from: 'people',
 						$groupBy: ['job_title'],
 						$rollup: true
 					}
@@ -57,7 +57,7 @@ describe('MySQL Query Operators', function() {
 							'job_title',
 							{ total_salary: { $sum: 'salary' } }
 						],
-						$table: 'people',
+						$from: 'people',
 						$groupBy: ['job_title'],
 						$rollup: false
 					}
@@ -77,7 +77,7 @@ describe('MySQL Query Operators', function() {
 							'job_position',
 							{ job_title_list: { $groupConcat: 'job_title' } }
 						],
-						$table: 'people',
+						$from: 'people',
 						$groupBy: ['job_position']
 					}
 				});
@@ -94,7 +94,7 @@ describe('MySQL Query Operators', function() {
 							'job_position',
 							{ job_title_list: { $groupConcat: { $column: 'job_title', $distinct: true, $sort:['job_title'], $separator: '; ' } } }
 						],
-						$table: 'people',
+						$from: 'people',
 						$groupBy: ['job_position']
 					}
 				});
@@ -110,7 +110,7 @@ describe('MySQL Query Operators', function() {
 			it('should return LIMIT', function() {
 				var query = sqlbuilder.build({
 					$select: {
-						$table: 'people',
+						$from: 'people',
 						$limit: 50
 					}
 				});
@@ -124,7 +124,7 @@ describe('MySQL Query Operators', function() {
 			it('should return LIMIT ALL', function() {
 				var query = sqlbuilder.build({
 					$select: {
-						$table: 'people',
+						$from: 'people',
 						$limit: 'ALL'
 					}
 				});
@@ -140,7 +140,7 @@ describe('MySQL Query Operators', function() {
 			it('should return LIMIT and OFFSET', function() {
 				var query = sqlbuilder.build({
 					$select: {
-						$table: 'people',
+						$from: 'people',
 						$limit: 50,
 						$offset: 10
 					}
@@ -160,7 +160,7 @@ describe('MySQL Query Operators', function() {
 					$select: {
 						$columns: ['first_name', 'last_name'],
 						$into: ['@firstname', '@lastname'],
-						$table: 'people'
+						$from: 'people'
 					}
 				});
 
@@ -182,7 +182,7 @@ describe('MySQL Query Operators', function() {
 								$lines: { $terminatedBy: '\n' }
 							}
 						},
-						$table: 'people'
+						$from: 'people'
 					}
 				});
 
@@ -204,7 +204,7 @@ describe('MySQL Query Operators', function() {
 			try {
 				var query = sqlbuilder.build({
 					$select: {
-						$table: 'people',
+						$from: 'people',
 						$offset: 10
 					}
 				});
@@ -224,7 +224,7 @@ describe('MySQL Query Operators', function() {
 								$lines: { $terminatedBy: '\n' }
 							}
 						},
-						$table: 'people'
+						$from: 'people'
 					}
 				});
 			} catch (err) {

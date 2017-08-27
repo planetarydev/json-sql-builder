@@ -16,7 +16,7 @@ describe('postgreSQL Standard', function() {
 						'job_title',
 						{ total_salary: { $sum: 'salary' } }
 					],
-					$table: 'people',
+					$from: 'people',
 					$groupBy: ['job_title']
 				}
 			});

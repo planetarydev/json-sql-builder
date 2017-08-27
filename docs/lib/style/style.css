@@ -805,3 +805,27 @@ code {
 .api-box .arguments .description code{
     color: #666!important;
 }
+
+.locus .w3-tag {
+	margin-left: 8px;
+	border: 1px solid #aaa;
+	border-radius: 6px;
+}
+
+.locus .w3-tag.supported {
+	color: #fff;
+	background-color: #435761;
+	border: 1px solid #aaa;
+}
+
+.locus .w3-tag.unsupported {
+	color: #888;
+	background-color: #f1f1f1;
+}
+
+.api-box .body .hljs.hljs-line-numbers {
+	display: none;
+}
+.api-box .body .language-syntax {
+	background-color: #fff;
+}

@@ -9,6 +9,23 @@ var sqlbuilder   = new SQLBuilder();
 describe('ANSI Query Operators', function() {
 	describe('$select: { ... }', function() {
 
+		describe('minimum select requirements', function() {
+			it('should return SELECT with one column', function() {
+				var query = sqlbuilder.build({
+					$select: {
+						$columns: {
+							my_first_col: { $val: 'Hello World' }
+						}
+					}
+				});
+
+				expect(query).to.be.instanceOf(SQLQuery);
+				expect(query.sql).to.equal('SELECT ? AS `my_first_col`');
+				expect(query.values.length).to.equal(1);
+				expect(query.values[0]).to.equal('Hello World');
+			});
+		});
+
 		describe('$from', function() {
 			it('should return SELECT ... FROM `table-identifier`', function() {
 				var query = sqlbuilder.build({
@@ -23,25 +40,11 @@ describe('ANSI Query Operators', function() {
 			});
 		});
 
-		describe('$table', function() {
-			it('should return SELECT ... FROM `table-identifier`', function() {
-				var query = sqlbuilder.build({
-					$select: {
-						$table: 'people'
-					}
-				});
-
-				expect(query).to.be.instanceOf(SQLQuery);
-				expect(query.sql).to.equal('SELECT * FROM `people`');
-				expect(query.values.length).to.equal(0);
-			});
-		});
-
-		describe('$table: { $as: <aliasname> }', function() {
+		describe('$from: { $as: <aliasname> }', function() {
 			it('should return SELECT ... FROM `table-identifier` AS `alias`', function() {
 				var query = sqlbuilder.build({
 					$select: {
-						$table: { people: { $as: 'alias_people' } }
+						$from: { people: { $as: 'alias_people' } }
 					}
 				});
 
@@ -61,7 +64,7 @@ describe('ANSI Query Operators', function() {
 							last_name: { $as: 'alias_last_name' },
 							gender: { $val: 'male' }
 						},
-						$table: 'people'
+						$from: 'people'
 					}
 				});
 
@@ -77,7 +80,7 @@ describe('ANSI Query Operators', function() {
 				var query = sqlbuilder.build({
 					$select: {
 						$columns: ['first_name', 'last_name'],
-						$table: 'people'
+						$from: 'people'
 					}
 				});
 
@@ -94,7 +97,7 @@ describe('ANSI Query Operators', function() {
 							{ last_name: { $as: 'alias_last_name' } },
 							{ gender: { $val: 'male' } }
 						],
-						$table: 'people'
+						$from: 'people'
 					}
 				});
 
@@ -112,7 +115,7 @@ describe('ANSI Query Operators', function() {
 					$select: {
 						$distinct: true,
 						$columns: ['first_name', 'last_name'],
-						$table: 'people'
+						$from: 'people'
 					}
 				});
 
@@ -126,7 +129,7 @@ describe('ANSI Query Operators', function() {
 					$select: {
 						$distinct: false,
 						$columns: ['first_name', 'last_name'],
-						$table: 'people'
+						$from: 'people'
 					}
 				});
 
@@ -140,7 +143,7 @@ describe('ANSI Query Operators', function() {
 			it('should return WHERE with all object-expressions concatenated by AND', function() {
 				var query = sqlbuilder.build({
 					$select: {
-						$table: 'people',
+						$from: 'people',
 						$where: {
 							first_name: 'John',
 							last_name: 'Doe'
@@ -158,7 +161,7 @@ describe('ANSI Query Operators', function() {
 			it('should return WHERE with all object-expressions using comparison operator $eq concatenated by AND ', function() {
 				var query = sqlbuilder.build({
 					$select: {
-						$table: 'people',
+						$from: 'people',
 						$where: {
 							first_name: 'John',
 							last_name: { $eq: 'Doe' }
@@ -176,7 +179,7 @@ describe('ANSI Query Operators', function() {
 			it('should return WHERE with all object-expressions with mixed logical and comparison operators $and, $or, $eq', function() {
 				var query = sqlbuilder.build({
 					$select: {
-						$table: 'people',
+						$from: 'people',
 						$where: {
 							$and : [
 								{ first_name: 'John' },
@@ -202,7 +205,7 @@ describe('ANSI Query Operators', function() {
 			it('should return WHERE with all object-expressions concatenated by OR', function() {
 				var query = sqlbuilder.build({
 					$select: {
-						$table: 'people',
+						$from: 'people',
 						$where: {
 							$or: [
 								{ first_name: 'John' },
@@ -225,7 +228,7 @@ describe('ANSI Query Operators', function() {
 				var query = sqlbuilder.build({
 					$select: {
 						$columns: ['first_name', 'last_name'],
-						$table: 'people',
+						$from: 'people',
 						$groupBy: ['first_name', 'last_name']
 					}
 				});
@@ -242,7 +245,7 @@ describe('ANSI Query Operators', function() {
 							'job_title',
 							{ total_salary: { $sum: 'salary' } }
 						],
-						$table: 'people',
+						$from: 'people',
 						$groupBy: ['job_title']
 					}
 				});
@@ -261,7 +264,7 @@ describe('ANSI Query Operators', function() {
 							'first_name',
 							{ first_name_count: { $count: '*' } }
 						],
-						$table: 'people',
+						$from: 'people',
 						$groupBy: ['first_name'],
 						$having: {
 							$expr: { $count: '*', $gt: 2 }
@@ -281,7 +284,7 @@ describe('ANSI Query Operators', function() {
 			it('should return ORDER BY clause with all columns concatenated by `, `', function() {
 				var query = sqlbuilder.build({
 					$select: {
-						$table: 'people',
+						$from: 'people',
 						$sort: ['last_name', 'first_name']
 					}
 				});
@@ -294,7 +297,7 @@ describe('ANSI Query Operators', function() {
 			it('should return ORDER BY clause with ASC, DESC using $asc and $desc', function() {
 				var query = sqlbuilder.build({
 					$select: {
-						$table: 'people',
+						$from: 'people',
 						$sort: [
 							{ last_name : { $asc: true } },
 							{ first_name : { $desc: true } }
@@ -310,7 +313,7 @@ describe('ANSI Query Operators', function() {
 			it('should return ORDER BY clause using ASC, DESC defined by value', function() {
 				var query = sqlbuilder.build({
 					$select: {
-						$table: 'people',
+						$from: 'people',
 						$sort: [
 							{ last_name : 'ASC' },
 							{ first_name : 'DESC' }
@@ -326,7 +329,7 @@ describe('ANSI Query Operators', function() {
 			it('should return ORDER BY clause using ASC, DESC defined by number 1 | -1', function() {
 				var query = sqlbuilder.build({
 					$select: {
-						$table: 'people',
+						$from: 'people',
 						$sort: [
 							{ last_name : 1 },
 							{ first_name : -1 }
@@ -342,7 +345,7 @@ describe('ANSI Query Operators', function() {
 			it('should return ORDER BY clause defined as object using ASC, DESC by value', function() {
 				var query = sqlbuilder.build({
 					$select: {
-						$table: 'people',
+						$from: 'people',
 						$sort: {
 							last_name : 'ASC',
 							first_name : 'DESC'
@@ -358,7 +361,7 @@ describe('ANSI Query Operators', function() {
 			it('should return ORDER BY clause defined as object using ASC, DESC by number 1 | -1', function() {
 				var query = sqlbuilder.build({
 					$select: {
-						$table: 'people',
+						$from: 'people',
 						$sort: {
 							last_name : 1,
 							first_name : -1
