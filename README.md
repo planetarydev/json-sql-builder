@@ -2,26 +2,30 @@
 
 Writing your SQL-Queries in a way like mongo. Use JSON to define all the queries you like to run.
 
-By default `json-sql` supports the ANSI-SQL language. In addition to this you can specify a dialect like `mysql` or `postgreSQL`.
-At this time we will support additional helpers and operators for:
-- mysql
-- postgreSQL
+By default `json-sql-builder` supports the ANSI-SQL language. In addition to this you can specify a dialect like `mysql` or `postgreSQL`.
+At this time we will support additional language helpers and operators for:
+- [x] MySQL
+- [x] PostgreSQL
+- [ ] Oracle
+- [ ] Microsoft SQL Server
+
+For further details on the language specific helpers and operators have a look at the complete documentation.
 
 ## Install
 
 ```sh
-npm install json-sql --save
+npm install json-sql-builder --save
 ```
 
 ## Getting Started
 
 ```javascript
-const SQLBuilder = require('json-sql');
+const SQLBuilder = require('json-sql-builder');
 // create a new instance of the SQLBuilder and load the language extension for mysql
 var sqlbuilder   = new SQLBuilder('mysql');
 
 // lets start some query fun
-var totalSalaryQuery = sqlbuilder.build({
+var totalSalary = sqlbuilder.build({
 	$select: {
 		$columns: [
 			'job_title',
@@ -37,8 +41,8 @@ var totalSalaryQuery = sqlbuilder.build({
 	}
 });
 
-// the query-result just created can directly passed to the NPM mysql package
-// mysql.query(totalSalaryQuery, function(err, results){
+// the query-result just created can directly passed to the NPM mysql package query-method
+// mysql.query(totalSalary, function(err, results){
 //	  [ ... ]
 // });
 ```
@@ -46,13 +50,13 @@ var totalSalaryQuery = sqlbuilder.build({
 **Result**
 ```javascript
 
-totalSalaryQuery = {
+totalSalary = {
 	sql: 'Your SQL-query-string'
 	values: ['Array', 'with', 'all', 'Query-values']
 	timeout: 10000 // depends on the options
 }
 
-// totalSalaryQuery.sql
+// totalSalary.sql
 SELECT
 	`job_title`,
 	SUM(`salary`) AS `total_salary`
@@ -65,7 +69,7 @@ AND `country_code` = ?
 GROUP BY
 	`job_title`
 
-// totalSalaryQuery.values
+// totalSalary.values
 ['Sales Manager', 'Account Manager', 18, 'US']
 
 ```
