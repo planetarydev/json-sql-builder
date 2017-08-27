@@ -41,7 +41,7 @@ var totalSalary = sqlbuilder.build({
 			'job_title',
 			{ total_salary: { $sum: 'salary' } }
 		],
-		$table: 'people',
+		$from: 'people',
 		$where: {
 			job_title: { $in: ['Sales Manager', 'Account Manager'] },
 			age: { $gte: 18 },
@@ -59,13 +59,6 @@ var totalSalary = sqlbuilder.build({
 
 **Result**
 ```javascript
-
-totalSalary = {
-	sql: 'Your SQL-query-string'
-	values: ['Array', 'with', 'all', 'Query-values']
-	timeout: 10000 // depends on the options
-}
-
 // totalSalary.sql
 SELECT
 	`job_title`,
@@ -81,5 +74,13 @@ GROUP BY
 
 // totalSalary.values
 ['Sales Manager', 'Account Manager', 18, 'US']
+
+
+// general output
+queryOutput = {
+	sql: 'Your SQL-query-string'
+	values: ['Array', 'with', 'all', 'Query-values']
+	timeout: 10000 // depends on the options
+}
 
 ```
