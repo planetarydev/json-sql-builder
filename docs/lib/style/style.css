@@ -827,5 +827,6 @@ code {
 	display: none;
 }
 .api-box .body .language-syntax {
+	color: #ff3f3f;
 	background-color: #fff;
 }
