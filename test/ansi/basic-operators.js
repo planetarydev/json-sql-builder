@@ -87,6 +87,36 @@ describe('ANSI Basic Operator', function() {
 		});
 	});
 
+	describe('$inc', function() {
+		it('should return increment with quoted identifier', function() {
+			var query = sqlbuilder.build({
+				$set:{
+					age: { $inc: 5 }
+				}
+			});
+
+			expect(query).to.be.instanceOf(SQLQuery);
+			expect(query.sql).to.equal('SET `age` = `age` + ?');
+			expect(query.values.length).to.equal(1);
+			expect(query.values[0]).to.equal(5);
+		});
+	});
+
+	describe('$dec', function() {
+		it('should return decrement with quoted identifier', function() {
+			var query = sqlbuilder.build({
+				$set:{
+					age: { $dec: 5 }
+				}
+			});
+
+			expect(query).to.be.instanceOf(SQLQuery);
+			expect(query.sql).to.equal('SET `age` = `age` - ?');
+			expect(query.values.length).to.equal(1);
+			expect(query.values[0]).to.equal(5);
+		});
+	});
+
 	describe('$val', function() {
 		it('should return a placeholder with a fix value without identifier', function() {
 			var query = sqlbuilder.build({

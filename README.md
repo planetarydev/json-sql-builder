@@ -4,16 +4,15 @@ Writing your SQL-Queries in a way like mongo. Use JSON to define all the queries
 
 By default `json-sql-builder` supports the ANSI-SQL language. In addition to this you can specify a dialect like `mysql` or `postgreSQL`.
 At this time we will support additional language helpers and operators for:
-- [x] ANSI SQL
 - [x] MySQL
-- [ ] PostgreSQL
+- [x] PostgreSQL
 - [ ] Oracle
 - [ ] Microsoft SQL Server
 
 For further details on the language specific helpers and operators have a look at the complete
 documentation at [https://planetarydev.github.io/json-sql-builder/](https://planetarydev.github.io/json-sql-builder/).
 
-## Current Stage
+## Current Dev Stage
 
 The developing of this module is currently still in work, for details have a look at the [roadmap](https://planetarydev.github.io/json-sql-builder/roadmap.html). If you like to support the current development feel free and contribute on github. Any pull requests are welcome if you supply:
 - Tests

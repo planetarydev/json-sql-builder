@@ -7,14 +7,15 @@ The current development stage is that the main SQLBuilder will work exactly the 
 - [x] SQLBuilder
 - [x] ANSI select
 - [x] MySQL SELECT helpers
-- [ ] **in process** Official, full documentation
-- [ ] Add Helpers for ANSI insert
-- [ ] Add Helpers for ANSI update
-- [ ] Add Helpers for ANSI delete
+- [x] Official, full documentation
+- [x] Add Helpers for ANSI insert
+- [x] Add Helpers for ANSI update
+- [x] Add Helpers for ANSI delete
+- [x] Add Helpers for ANSI union
 
-## Further developments
-- [ ] MySQL language Helpers
-- [ ] postgreSQL language Helpers
+## Further developments til 10/2017
+- [ ] **in process** MySQL additional language Helpers
+- [ ] **in process** postgreSQL addional language Helpers
 
 ## Support for other RDBMS systems
 - [ ] Oracle
