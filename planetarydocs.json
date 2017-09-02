@@ -54,6 +54,9 @@
         "ismethod": {
             "category": "Methods"
         },
+		"isfunction": {
+            "category": "Functions"
+        },
         "ishelper": {
             "category": "Helpers"
         },
@@ -70,6 +73,10 @@
             "default": true
         },
         "istemplate": {
+            "type": "boolean",
+            "default": true
+        },
+		"isfunction": {
             "type": "boolean",
             "default": true
         },

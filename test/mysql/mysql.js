@@ -46,4 +46,54 @@ describe('MySQL Standard', function() {
 			expect(query.values[1]).to.equal('Doe');
 		});
 	});
+
+	describe('String Functions', function() {
+		describe('$left', function() {
+			it('should return LEFT(str, ?)', function() {
+				var query = sqlbuilder.build({
+					$select: {
+						$columns:[
+							{ first_name_2lc: { $left:['first_name', 2] } }
+						],
+						$from: 'people',
+						$where: {
+							first_name: 'John',
+							last_name: 'Doe'
+						}
+					}
+				});
+
+				expect(query).to.be.instanceOf(SQLQuery);
+				expect(query.sql).to.equal('SELECT LEFT(`first_name`, ?) AS `first_name_2lc` FROM `people` WHERE `first_name` = ? AND `last_name` = ?');
+				expect(query.values.length).to.equal(3);
+				expect(query.values[0]).to.equal(2);
+				expect(query.values[1]).to.equal('John');
+				expect(query.values[2]).to.equal('Doe');
+			});
+		});
+		describe('$concat', function() {
+			it('should return LEFT(str, ?)', function() {
+				var query = sqlbuilder.build({
+					$select: {
+						$columns:[
+							{ first_name_2lc: { $concat:[ { $left:['first_name', 2] }, '-Hallo'] } }
+						],
+						$from: 'people',
+						$where: {
+							first_name: 'John',
+							last_name: 'Doe'
+						}
+					}
+				});
+
+				expect(query).to.be.instanceOf(SQLQuery);
+				expect(query.sql).to.equal('SELECT CONCAT(LEFT(`first_name`, ?), ?) AS `first_name_2lc` FROM `people` WHERE `first_name` = ? AND `last_name` = ?');
+				expect(query.values.length).to.equal(4);
+				expect(query.values[0]).to.equal(2);
+				expect(query.values[1]).to.equal('-Hallo');
+				expect(query.values[2]).to.equal('John');
+				expect(query.values[3]).to.equal('Doe');
+			});
+		});
+	});
 });
