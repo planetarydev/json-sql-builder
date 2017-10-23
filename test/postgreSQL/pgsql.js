@@ -46,4 +46,24 @@ describe('postgreSQL Standard', function() {
 			expect(query.values[1]).to.equal('Doe');
 		});
 	});
+
+	describe('Aggregation $jsonAgg', function() {
+		it('should return json_agg function aggregation statement', function() {
+			var query = sqlbuilder.build({
+				$select: {
+					$from: 'people',
+					$columns: [
+						'user_id',
+						{ tokens: { $json: { $jsonAgg: 'hashed_token' } } }
+					],
+					$groupBy: ['user_id']
+				}
+			});
+
+			expect(query).to.be.instanceOf(SQLQuery);
+			expect(query.sql).to.equal('SELECT "user_id", to_json(json_agg("hashed_token")) AS "tokens" FROM "people" GROUP BY "user_id"');
+			expect(query.values.length).to.equal(0);
+		});
+	});
+
 });
