@@ -4,6 +4,7 @@ Writing your SQL-Queries in a way like mongo. Use JSON to define all the queries
 
 By default `json-sql-builder` supports the ANSI-SQL language. In addition to this you can specify a dialect like `mysql` or `postgreSQL`.
 At this time we will support additional language helpers and operators for:
+- [x] ANSI
 - [x] MySQL
 - [x] PostgreSQL
 - [ ] Oracle
@@ -50,10 +51,6 @@ var totalSalary = sqlbuilder.build({
 	}
 });
 
-// the query-result just created can directly passed to the NPM mysql package query-method
-// mysql.query(totalSalary, function(err, results){
-//	  [ ... ]
-// });
 ```
 
 **Result**
@@ -83,3 +80,13 @@ queryOutput = {
 }
 
 ```
+
+## Release notes
+
+### 1.0.11 Add helpers and operators for **postgreSQL**
+- `ON CONFLICT` clause using `$confict`
+- Update documetation
+
+### 1.0.10 Add helpers and operators for **postgreSQL**
+- Function `json_agg()` using `$jsonAgg`
+- Function `to_json()` using `$toJson`
