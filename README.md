@@ -83,10 +83,15 @@ queryOutput = {
 
 ## Release notes
 
+### 1.0.12 Add helpers and operators for **postgreSQL**
+- `LIMIT` and `LIMIT ALL` using `$limit`
+- `OFFSET` using `$offset`
+- add `sqlDialect` property to sqlBuilder to use it inside of helper-functions
+
 ### 1.0.11 Add helpers and operators for **postgreSQL**
 - `ON CONFLICT` clause using `$confict`
 - Update documetation
 
 ### 1.0.10 Add helpers and operators for **postgreSQL**
 - Function `json_agg()` using `$jsonAgg`
-- Function `to_json()` using `$toJson`
+- Function `to_json()` using `$json`
