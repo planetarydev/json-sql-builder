@@ -65,6 +65,9 @@
         },
         "isquerying": {
             "category": "Querying"
+        },
+		"isddl": {
+            "category": "DDL"
         }
     },
     "tags": {
@@ -89,6 +92,10 @@
             "default": true
         },
         "isquerying": {
+            "type": "boolean",
+            "default": true
+        },
+		"isddl": {
             "type": "boolean",
             "default": true
         }

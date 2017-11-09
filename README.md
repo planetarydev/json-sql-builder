@@ -81,7 +81,45 @@ queryOutput = {
 
 ```
 
-## Release notes
+----------------------------------------------------------------------------------
+
+# Release notes
+
+### 1.0.13 Add `CREATE TABLE` operators and helpers for
+- ANSI
+- PostgreSQL
+- MySQL
+- Update tests and docs
+
+```javascript
+var query = sqlbuilder.build({
+	$create: {
+		$table: 'users',
+		$define: {
+			_id: { $column: { $type: 'VARCHAR', $length: 32, $notNull: true } },
+			username: { $column: { $type: 'TEXT' } },
+			first_name: { $column: { $type: 'TEXT' } },
+			last_name: { $column: { $type: 'TEXT', $default: 'John' } },
+			createdAt: { $column: { $type: 'DATETIME', $notNull: true } },
+
+			pk_users: { $constraint: { $primary: true, $columns: '_id' } },
+			uc_users_username: { $constraint: { $unique: true, $columns: 'username' } }
+		}
+	}
+});
+
+// OUTPUT
+CREATE TABLE `users` (
+	`_id` VARCHAR (32) NOT NULL,
+	`username` TEXT,
+	`first_name` TEXT,
+	`last_name` TEXT DEFAULT ?,
+	`createdAt` DATETIME NOT NULL,
+
+	CONSTRAINT `pk_users` PRIMARY KEY (`_id`),
+	CONSTRAINT `uc_users_username` UNIQUE (`username`)
+);
+```
 
 ### 1.0.12 Add helpers and operators for **postgreSQL**
 - `LIMIT` and `LIMIT ALL` using `$limit`

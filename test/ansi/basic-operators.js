@@ -75,6 +75,7 @@ describe('ANSI Basic Operator', function() {
 		});
 	});
 
+	/* removed / changed since 1.0.13 to $column definition used by $create -> $table -> $define
 	describe('$column', function() {
 		it('should return any column as quoted identifier', function() {
 			var query = sqlbuilder.build({
@@ -85,7 +86,7 @@ describe('ANSI Basic Operator', function() {
 			expect(query.sql).to.equal('`first_name`');
 			expect(query.values.length).to.equal(0);
 		});
-	});
+	});*/
 
 	describe('$inc', function() {
 		it('should return increment with quoted identifier', function() {
