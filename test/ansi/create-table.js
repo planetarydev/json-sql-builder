@@ -49,12 +49,11 @@ describe('ANSI CREATE TABLE', function() {
 			});
 		});
 
-		describe('$ine: true', function() {
+		describe('$ine: <table-identifier>', function() {
 			it('should return CREATE TABLE IF NOT EXISTS `table-identifier` Statement', function() {
 				var query = sqlbuilder.build({
 					$create: {
-						$table: 'users',
-						$ine: true,
+						$table: { $ine: 'users' },
 						$define: {
 							_id: { $column: { $type: 'VARCHAR', $length: 32, $notNull: true } }
 						}

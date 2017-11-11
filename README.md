@@ -85,6 +85,31 @@ queryOutput = {
 
 # Release notes
 
+### 1.0.14 Add `CREATE INDEX` operators and helpers for
+- ANSI using `$create: { $index: 'myidx', $table: 'mytable', $columns: {...} }`
+- Move `$ine` to Basic Helpers and support Boolean and String expressions
+- Update tests and docs
+
+```javascript
+var query = sqlbuilder.build({
+	$create: {
+		$index: 'idx_people_last_name',
+		$table: 'people',
+		$columns: {
+			last_name: { $asc: true },
+			first_name: { $asc: true },
+		},
+		$using: 'BTREE'
+	}
+}
+
+// OUTPUT
+CREATE INDEX `idx_people_last_name` ON `people` USING BTREE (
+	`last_name` ASC,
+	`first_name` ASC
+);
+```
+
 ### 1.0.13 Add `CREATE TABLE` operators and helpers for
 - ANSI
 - PostgreSQL
