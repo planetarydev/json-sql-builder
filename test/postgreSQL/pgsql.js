@@ -47,7 +47,7 @@ describe('postgreSQL Standard', function() {
 		});
 	});
 
-	describe('Aggregation $jsonAgg', function() {
+	describe('JSON Support', function() {
 		it('should return json_agg function aggregation statement', function() {
 			var query = sqlbuilder.build({
 				$select: {
@@ -62,6 +62,58 @@ describe('postgreSQL Standard', function() {
 
 			expect(query).to.be.instanceOf(SQLQuery);
 			expect(query.sql).to.equal('SELECT "user_id", to_json(json_agg("hashed_token")) AS "tokens" FROM "people" GROUP BY "user_id"');
+			expect(query.values.length).to.equal(0);
+		});
+
+		it('should return row_to_json function statement', function() {
+			var query = sqlbuilder.build({
+				$select: {
+					$from: 'people',
+					$columns: [
+						{ peopleData: { $rowToJson: 'people' } }
+			 		]
+				}
+			});
+
+			expect(query).to.be.instanceOf(SQLQuery);
+			expect(query.sql).to.equal('SELECT row_to_json("people") AS "peopleData" FROM "people"');
+			expect(query.values.length).to.equal(0);
+		});
+
+		it('should return json_build_object function with static data', function() {
+			var query = sqlbuilder.build({
+				$select: {
+					$from: 'people',
+					$columns: [
+						{ peopleData: { $jsonBuildObject: { firstName: 'John', lastName: 'Doe' } } }
+			 		]
+				}
+			});
+
+			expect(query).to.be.instanceOf(SQLQuery);
+			expect(query.sql).to.equal('SELECT json_build_object(\'firstName\', $1, \'lastName\', $2) AS "peopleData" FROM "people"');
+			expect(query.values.length).to.equal(2);
+			expect(query.values[0]).to.equal('John');
+			expect(query.values[1]).to.equal('Doe');
+		});
+
+		it('should return json_build_object function with column data', function() {
+			var query = sqlbuilder.build({
+				$select: {
+					$from: 'people',
+					$columns: [
+						{ peopleData: {
+							$jsonBuildObject: {
+								firstName: { $column: 'first_name' },
+								lastName: { $column: 'last_name' }
+							}
+						} }
+			 		]
+				}
+			});
+
+			expect(query).to.be.instanceOf(SQLQuery);
+			expect(query.sql).to.equal('SELECT json_build_object(\'firstName\', "first_name", \'lastName\', "last_name") AS "peopleData" FROM "people"');
 			expect(query.values.length).to.equal(0);
 		});
 	});

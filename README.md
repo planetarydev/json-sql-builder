@@ -81,9 +81,69 @@ queryOutput = {
 
 ```
 
-----------------------------------------------------------------------------------
+
 
 # Release notes
+
+### 1.0.15 Add Support for ANSI `JOIN` operators
+- INNER JOIN
+- LEFT JOIN
+- RIGHT JOIN
+- FULL OUTER JOIN
+
+```javascript
+var query = sqlbuilder.build({
+	$select: {
+		$from: 'public.users',
+		$joins: {
+			'public.users_profiles': { $as: 'profile', $innerJoin: { 'public.users.id': { $eq: { $column: 'profile.user_id' } } } },
+			'public.users_likes': { $as: 'likes',
+				$leftJoin: {
+					$and: [
+						{ 'likes.user_id': { $eq: { $column: 'public.users.id' } } },
+						{ 'likes.score': { $gt: 1 } }
+					]
+				}
+			}
+		}
+	}
+});
+```
+
+### 1.0.15 Add PostgreSQL JSON helpers
+- $rowToJson
+- $jsonBuildObject
+
+```javascript
+// Example using $jsonBuildObject
+var query = sqlbuilder.build({
+	$select: { $columns: [
+		{ peopleData: { $jsonBuildObject: { firstName: 'John', lastName: 'Doe' } } }
+	] }
+});
+
+SELECT
+	json_build_object('firstName', $1, 'lastName', $2) AS "peopleData"
+FROM
+	"people"
+
+
+// Example using $rowToJson
+var query = sqlbuilder.build({
+	$select: {
+		$from: 'people',
+		$columns: [
+			{ peopleData: { $rowToJson: 'people' } }
+		]
+	}
+});
+
+SELECT
+	row_to_json("people") AS "peopleData"
+FROM
+	"people";
+```
+
 
 ### 1.0.14 Add `CREATE INDEX` operators and helpers for
 - ANSI using `$create: { $index: 'myidx', $table: 'mytable', $columns: {...} }`
