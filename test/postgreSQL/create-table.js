@@ -9,6 +9,24 @@ var sqlbuilder   = new SQLBuilder('postgreSQL');
 describe('PostgreSQL specific CREATE TABLE', function() {
 	describe('$create: { ... }', function() {
 
+		describe('$default: true', function() {
+			it('should return CREATE TABLE `table-identifier` with DEFAULT "t" on BOOL column', function() {
+				var query = sqlbuilder.build({
+					$create: {
+						$table: 'users',
+						$define: {
+							_id: { $column: { $type: 'VARCHAR', $length: 32, $notNull: true } },
+							test: { $column: { $type: 'BOOLEAN', $notNull: true, $default: true } }
+						}
+					}
+				});
+
+				expect(query).to.be.instanceOf(SQLQuery);
+				expect(query.sql).to.equal('CREATE TABLE "users" ("_id" VARCHAR (32) NOT NULL, "test" BOOLEAN NOT NULL DEFAULT \'t\')');
+				expect(query.values.length).to.equal(0);
+			});
+		});
+
 		describe('$unlogged: true', function() {
 			it('should return CREATE UNLOGGED TABLE `table-identifier` Statement', function() {
 				var query = sqlbuilder.build({

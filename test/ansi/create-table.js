@@ -25,9 +25,9 @@ describe('ANSI CREATE TABLE', function() {
 				});
 
 				expect(query).to.be.instanceOf(SQLQuery);
-				expect(query.sql).to.equal('CREATE TABLE `users` (`_id` VARCHAR (32) NOT NULL, `username` TEXT, `first_name` TEXT, `last_name` TEXT DEFAULT ?, `createdAt` DATETIME NOT NULL)');
-				expect(query.values.length).to.equal(1);
-				expect(query.values[0]).to.equal('John');
+				expect(query.sql).to.equal('CREATE TABLE `users` (`_id` VARCHAR (32) NOT NULL, `username` TEXT, `first_name` TEXT, `last_name` TEXT DEFAULT \'John\', `createdAt` DATETIME NOT NULL)');
+				expect(query.values.length).to.equal(0);
+				//expect(query.values[0]).to.equal('John');
 			});
 		});
 
@@ -85,9 +85,9 @@ describe('ANSI CREATE TABLE', function() {
 				});
 
 				expect(query).to.be.instanceOf(SQLQuery);
-				expect(query.sql).to.equal('CREATE TABLE `users` (`_id` VARCHAR (32) NOT NULL, `username` TEXT, `first_name` TEXT, `last_name` TEXT DEFAULT ?, `createdAt` DATETIME NOT NULL, CONSTRAINT `pk_users` PRIMARY KEY (`_id`), CONSTRAINT `uc_users_username` UNIQUE (`username`))');
-				expect(query.values.length).to.equal(1);
-				expect(query.values[0]).to.equal('John');
+				expect(query.sql).to.equal('CREATE TABLE `users` (`_id` VARCHAR (32) NOT NULL, `username` TEXT, `first_name` TEXT, `last_name` TEXT DEFAULT \'John\', `createdAt` DATETIME NOT NULL, CONSTRAINT `pk_users` PRIMARY KEY (`_id`), CONSTRAINT `uc_users_username` UNIQUE (`username`))');
+				expect(query.values.length).to.equal(0);
+				//expect(query.values[0]).to.equal('John');
 			});
 		});
 
@@ -128,13 +128,13 @@ describe('ANSI CREATE TABLE', function() {
 				expect(query).to.be.instanceOf(SQLQuery);
 
 				var sql = 'CREATE TABLE `users` ('
-				sql += '`_id` VARCHAR (32) NOT NULL, `username` TEXT, `first_name` TEXT, `last_name` TEXT DEFAULT ?, `createdAt` DATETIME NOT NULL, ';
+				sql += '`_id` VARCHAR (32) NOT NULL, `username` TEXT, `first_name` TEXT, `last_name` TEXT DEFAULT \'John\', `createdAt` DATETIME NOT NULL, ';
 				sql += 'CONSTRAINT `fk_users_emails` FOREIGN KEY (`_id`) REFERENCES `user_emails` (`user_id`) ON DELETE CASCADE ON UPDATE RESTRICT, '
 				sql += 'CONSTRAINT `uc_users_username` UNIQUE (`username`)'
 				sql += ')';
 				expect(query.sql).to.equal(sql);
-				expect(query.values.length).to.equal(1);
-				expect(query.values[0]).to.equal('John');
+				expect(query.values.length).to.equal(0);
+				//expect(query.values[0]).to.equal('John');
 			});
 		});
 
@@ -162,13 +162,13 @@ describe('ANSI CREATE TABLE', function() {
 				expect(query).to.be.instanceOf(SQLQuery);
 
 				var sql = 'CREATE TABLE `users` ('
-				sql += '`_id` VARCHAR (32) NOT NULL, `username` TEXT, `first_name` TEXT, `last_name` TEXT DEFAULT ?, `age` INTEGER NOT NULL, ';
+				sql += '`_id` VARCHAR (32) NOT NULL, `username` TEXT, `first_name` TEXT, `last_name` TEXT DEFAULT \'John\', `age` INTEGER NOT NULL, ';
 				sql += 'CONSTRAINT `user_must_be_older_than_18` CHECK (`age` >= ?)'
 				sql += ')';
 				expect(query.sql).to.equal(sql);
-				expect(query.values.length).to.equal(2);
-				expect(query.values[0]).to.equal('John');
-				expect(query.values[1]).to.equal(18);
+				expect(query.values.length).to.equal(1);
+				//expect(query.values[0]).to.equal('John');
+				expect(query.values[0]).to.equal(18);
 			});
 
 			it('should return CREATE TABLE `table-identifier` Statement with a more complex CHECK constraint', function() {
@@ -199,14 +199,14 @@ describe('ANSI CREATE TABLE', function() {
 				expect(query).to.be.instanceOf(SQLQuery);
 
 				var sql = 'CREATE TABLE `users` ('
-				sql += '`_id` VARCHAR (32) NOT NULL, `username` TEXT, `first_name` TEXT, `last_name` TEXT DEFAULT ?, `age` INTEGER NOT NULL, ';
+				sql += '`_id` VARCHAR (32) NOT NULL, `username` TEXT, `first_name` TEXT, `last_name` TEXT DEFAULT \'John\', `age` INTEGER NOT NULL, ';
 				sql += 'CONSTRAINT `user_must_be_older_than_18` CHECK (`age` >= ? OR `username` = ?)'
 				sql += ')';
 				expect(query.sql).to.equal(sql);
-				expect(query.values.length).to.equal(3);
-				expect(query.values[0]).to.equal('John');
-				expect(query.values[1]).to.equal(18);
-				expect(query.values[2]).to.equal('Admin');
+				expect(query.values.length).to.equal(2);
+				//expect(query.values[0]).to.equal('John');
+				expect(query.values[0]).to.equal(18);
+				expect(query.values[1]).to.equal('Admin');
 			});
 		});
 
