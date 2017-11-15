@@ -85,6 +85,32 @@ queryOutput = {
 
 # Release notes
 
+### 1.0.16 Add `CREATE VIEW` Support with new operators and helpers
+- ANSI using `$create: { $view: 'myView', $select: {...} }`
+
+```javascript
+var query = sqlbuilder.build({
+	$create: {
+		$view: { $cor: 'v_people' },
+		$select : {
+			$from: 'people',
+			$columns: [
+				'first_name',
+				'last_name'
+			]
+		}
+	}
+});
+
+// OUTPUT
+CREATE OR REPLACE VIEW `v_people` AS
+	SELECT
+		`first_name`,
+		`last_name`
+	FROM
+		`people`;
+```
+
 ### 1.0.15 Add Support for ANSI `JOIN` operators
 - INNER JOIN
 - LEFT JOIN
