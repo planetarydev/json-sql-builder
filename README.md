@@ -85,6 +85,11 @@ queryOutput = {
 
 # Release notes
 
+### 1.0.19 Bugfixing
+- Join Support for MySQL and PostgreSQL should work now
+- Fix Support for Sub-Select's with AS clause
+
+
 ### 1.0.17+18 Bugfixing, Update docs
 - Parameterized queries for PostgreSQL using $create operator. The params will now safely escaped by pg-format because PostgreSQL does not support parameters on CREATE statements.
 

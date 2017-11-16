@@ -375,4 +375,33 @@ describe('ANSI Query Operators', function() {
 			});
 		});
 	});
+
+	describe('Sub-Select support', function() {
+		it('should return sub-select\'s in round brackets', function() {
+			var query = sqlbuilder.build({
+				$select: {
+					$columns: {
+						first_name: { $val: 'John' },
+						likes: {
+							$select: {
+								$from: 'people_likes',
+								$columns: {
+									totalLikes: { $count: '*' }
+								},
+								$where: {
+									'people.id': { $eq: { $column: 'people_likes.people_id' } }
+								}
+							}
+						}
+					},
+					$from: 'people'
+				}
+			});
+
+			expect(query).to.be.instanceOf(SQLQuery);
+			expect(query.sql).to.equal('SELECT ? AS `first_name`, (SELECT COUNT(*) AS `totalLikes` FROM `people_likes` WHERE `people`.`id` = `people_likes`.`people_id`) AS `likes` FROM `people`');
+			expect(query.values.length).to.equal(1);
+			expect(query.values[0]).to.equal('John');
+		});
+	});
 });

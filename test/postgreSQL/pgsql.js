@@ -226,4 +226,12 @@ describe('postgreSQL Standard', function() {
 			expect(query.values[5]).to.equal(27);
 		});
 	});
+
+	it('should return a quick-Test statement', function() {
+		var query = sqlbuilder.build({
+
+		});
+		console.log(query.sql);
+	});
+
 });
