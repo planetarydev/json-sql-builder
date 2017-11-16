@@ -85,6 +85,10 @@ queryOutput = {
 
 # Release notes
 
+### 1.0.17+18 Bugfixing, Update docs
+- Parameterized queries for PostgreSQL using $create operator. The params will now safely escaped by pg-format because PostgreSQL does not support parameters on CREATE statements.
+
+
 ### 1.0.16 Add `CREATE VIEW` Support with new operators and helpers
 - ANSI using `$create: { $view: 'myView', $select: {...} }`
 

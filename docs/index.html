@@ -69,6 +69,10 @@ queryOutput = {
 }
 </code></pre>
 <h1 id="releasenotes">Release notes</h1>
+<h3 id="101718bugfixingupdatedocs">1.0.17+18 Bugfixing, Update docs</h3>
+<ul>
+<li>Parameterized queries for PostgreSQL using $create operator. The params will now safely escaped by pg-format because PostgreSQL does not support parameters on CREATE statements.</li>
+</ul>
 <h3 id="1016addcreateviewsupportwithnewoperatorsandhelpers">1.0.16 Add <code>CREATE VIEW</code> Support with new operators and helpers</h3>
 <ul>
 <li>ANSI using <code>$create: { $view: 'myView', $select: {...} }</code></li>
