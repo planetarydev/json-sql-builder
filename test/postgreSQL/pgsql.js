@@ -47,6 +47,34 @@ describe('postgreSQL Standard', function() {
 		});
 	});
 
+	describe('Parameterized queries', function() {
+		it('should return escaped values using any $create Operator', function() {
+			var query = sqlbuilder.build({
+				$create: {
+					$table: 'users',
+					$define: {
+						_id: { $column: { $type: 'VARCHAR', $length: 32, $notNull: true } },
+						test: { $column: { $type: 'TEXT', $notNull: true, $default: 'Testvalue' } },
+						anyval: { $column: { $type: 'INTEGER', $default: 13 } },
+
+						testCheck: { $constraint: {
+							$check: {
+								$and: [
+									{ test: { $in: ['\';DROP SCHEMA foo;--', 'bar'] } },
+									{ anyval: { $gt: 13 } }
+								]
+							}
+						}}
+					}
+				}
+			});
+
+			expect(query).to.be.instanceOf(SQLQuery);
+			expect(query.sql).to.equal('CREATE TABLE "users" ("_id" VARCHAR (32) NOT NULL, "test" TEXT NOT NULL DEFAULT \'Testvalue\', "anyval" INTEGER DEFAULT 13, CONSTRAINT "testCheck" CHECK ("test" IN (\'\'\';DROP SCHEMA foo;--\', \'bar\') AND "anyval" > 13))');
+			expect(query.values.length).to.equal(0);
+		});
+	});
+
 	describe('JSON Support', function() {
 		it('should return json_agg function aggregation statement', function() {
 			var query = sqlbuilder.build({

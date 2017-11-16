@@ -18,7 +18,8 @@
   "author": "planetarydev",
   "license": "MIT",
   "dependencies": {
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "pg-format": "^1.0.4"
   },
   "devDependencies": {
     "chai": "^4.1.1",
