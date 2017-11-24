@@ -242,24 +242,11 @@ describe('postgreSQL Standard', function() {
 
 	it('should return a quick-Test statement', function() {
 		var sqlbuilder   = new SQLBuilder('postgreSQL');
-		var query = sqlbuilder.build({
-			$select: {
-				services: { $jsonbObjectAgg: { '~~servicedata.key': '~~servicedata.value' } },
-				$from: {
-					data: {
-						$select: {
-							services: { $jsonbBuildObject: { '~~users_loginservices.service_id': '~~users_loginservices.data' } },
-							$from: 'meteor.users_loginservices'
-						}
-					},
-					servicedata: {
-						$jsonbEach: '~~data.services'
-					}
-				}
-			}
-		});
+		/*var query = sqlbuilder.build({
 
-		expect(query.sql).to.equal('SELECT jsonb_object_agg("servicedata"."key", "servicedata"."value") AS "services" FROM (SELECT jsonb_build_object("users_loginservices"."service_id", "users_loginservices"."data") AS "services" FROM "meteor"."users_loginservices") AS "data", jsonb_each("data"."services") AS "servicedata"');
+		});*/
+
+		//expect(query.sql).to.equal('SELECT jsonb_object_agg("servicedata"."key", "servicedata"."value") AS "services" FROM (SELECT jsonb_build_object("users_loginservices"."service_id", "users_loginservices"."data") AS "services" FROM "meteor"."users_loginservices") AS "data", jsonb_each("data"."services") AS "servicedata"');
 	});
 
 	it('should return SELECT string_agg(...) AS test', function() {
