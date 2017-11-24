@@ -242,11 +242,14 @@ describe('postgreSQL Standard', function() {
 
 	it('should return a quick-Test statement', function() {
 		var sqlbuilder   = new SQLBuilder('postgreSQL');
-		/*var query = sqlbuilder.build({
+		var query = sqlbuilder.build({
+			$select: {
+				$from: 'people',
+				$where: {}
+			}
+		});
 
-		});*/
-
-		//expect(query.sql).to.equal('SELECT jsonb_object_agg("servicedata"."key", "servicedata"."value") AS "services" FROM (SELECT jsonb_build_object("users_loginservices"."service_id", "users_loginservices"."data") AS "services" FROM "meteor"."users_loginservices") AS "data", jsonb_each("data"."services") AS "servicedata"');
+		expect(query.sql).to.equal('SELECT * FROM "people"');
 	});
 
 	it('should return SELECT string_agg(...) AS test', function() {
