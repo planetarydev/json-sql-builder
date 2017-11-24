@@ -1,6 +1,6 @@
 {
   "name": "json-sql-builder",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "description": "SQLBuilder to translate JSON dataformat like mongo to SQL",
   "main": "index.js",
   "scripts": {
