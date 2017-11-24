@@ -17,7 +17,7 @@ describe('ANSI Query Operators', function() {
 					}
 				});
 
-				expect(query).to.be.instanceOf(SQLQuery);
+				//expect(query).to.be.instanceOf(SQLQuery);
 				expect(query.sql).to.equal('DELETE FROM `people`');
 				expect(query.values.length).to.equal(0);
 			});
@@ -30,7 +30,7 @@ describe('ANSI Query Operators', function() {
 					}
 				});
 
-				expect(query).to.be.instanceOf(SQLQuery);
+				//expect(query).to.be.instanceOf(SQLQuery);
 				expect(query.sql).to.equal('DELETE FROM `people` WHERE `id` = ?');
 				expect(query.values.length).to.equal(1);
 				expect(query.values[0]).to.equal(75375);

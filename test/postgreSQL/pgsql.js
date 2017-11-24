@@ -5,23 +5,23 @@ const SQLBuilder = require('../../index');
 const SQLQuery   = require('../../lib/sqlquery');
 
 // IMPORTANT - create a new instance with parameter "postgreSQL"
-var sqlbuilder   = new SQLBuilder('postgreSQL');
 
 describe('postgreSQL Standard', function() {
 	describe('Identifier quotation', function() {
 		it('should return double-quotes like "table"."column"', function() {
+			var sqlbuilder   = new SQLBuilder('postgreSQL');
 			var query = sqlbuilder.build({
 				$select: {
-					$columns: [
-						'job_title',
-						{ total_salary: { $sum: 'salary' } }
-					],
+					$columns: {
+						job_title: 1,
+						total_salary: { $sum: 'salary' }
+					},
 					$from: 'people',
 					$groupBy: ['job_title']
 				}
 			});
 
-			expect(query).to.be.instanceOf(SQLQuery);
+			//expect(query).to.be.instanceOf(SQLQuery);
 			expect(query.sql).to.equal('SELECT "job_title", SUM("salary") AS "total_salary" FROM "people" GROUP BY "job_title"');
 			expect(query.values.length).to.equal(0);
 		});
@@ -29,6 +29,7 @@ describe('postgreSQL Standard', function() {
 
 	describe('Placeholder terms', function() {
 		it('should return $1, $2, etc. for value placeholders', function() {
+			var sqlbuilder   = new SQLBuilder('postgreSQL');
 			var query = sqlbuilder.build({
 				$select: {
 					$from: 'people',
@@ -39,7 +40,7 @@ describe('postgreSQL Standard', function() {
 				}
 			});
 
-			expect(query).to.be.instanceOf(SQLQuery);
+			//expect(query).to.be.instanceOf(SQLQuery);
 			expect(query.sql).to.equal('SELECT * FROM "people" WHERE "first_name" = $1 AND "last_name" = $2');
 			expect(query.values.length).to.equal(2);
 			expect(query.values[0]).to.equal('John');
@@ -49,6 +50,7 @@ describe('postgreSQL Standard', function() {
 
 	describe('Parameterized queries', function() {
 		it('should return escaped values using any $create Operator', function() {
+			var sqlbuilder   = new SQLBuilder('postgreSQL');
 			var query = sqlbuilder.build({
 				$create: {
 					$table: 'users',
@@ -69,7 +71,7 @@ describe('postgreSQL Standard', function() {
 				}
 			});
 
-			expect(query).to.be.instanceOf(SQLQuery);
+			//expect(query).to.be.instanceOf(SQLQuery);
 			expect(query.sql).to.equal('CREATE TABLE "users" ("_id" VARCHAR (32) NOT NULL, "test" TEXT NOT NULL DEFAULT \'Testvalue\', "anyval" INTEGER DEFAULT 13, CONSTRAINT "testCheck" CHECK ("test" IN (\'\'\';DROP SCHEMA foo;--\', \'bar\') AND "anyval" > 13))');
 			expect(query.values.length).to.equal(0);
 		});
@@ -77,80 +79,89 @@ describe('postgreSQL Standard', function() {
 
 	describe('JSON Support', function() {
 		it('should return json_agg function aggregation statement', function() {
+			var sqlbuilder   = new SQLBuilder('postgreSQL');
 			var query = sqlbuilder.build({
 				$select: {
 					$from: 'people',
-					$columns: [
-						'user_id',
-						{ tokens: { $json: { $jsonAgg: 'hashed_token' } } }
-					],
+					$columns: {
+						user_id: 1,
+						tokens: { $json: { $jsonAgg: 'hashed_token' } }
+					},
 					$groupBy: ['user_id']
 				}
 			});
 
-			expect(query).to.be.instanceOf(SQLQuery);
+			//expect(query).to.be.instanceOf(SQLQuery);
 			expect(query.sql).to.equal('SELECT "user_id", to_json(json_agg("hashed_token")) AS "tokens" FROM "people" GROUP BY "user_id"');
 			expect(query.values.length).to.equal(0);
 		});
 
 		it('should return row_to_json function statement', function() {
+			var sqlbuilder   = new SQLBuilder('postgreSQL');
 			var query = sqlbuilder.build({
 				$select: {
 					$from: 'people',
-					$columns: [
-						{ peopleData: { $rowToJson: 'people' } }
-			 		]
+					$columns: {
+						peopleData: { $rowToJson: 'people' }
+			 		}
 				}
 			});
 
-			expect(query).to.be.instanceOf(SQLQuery);
+			//expect(query).to.be.instanceOf(SQLQuery);
 			expect(query.sql).to.equal('SELECT row_to_json("people") AS "peopleData" FROM "people"');
 			expect(query.values.length).to.equal(0);
 		});
 
 		it('should return json_build_object function with static data', function() {
+			var sqlbuilder   = new SQLBuilder('postgreSQL');
 			var query = sqlbuilder.build({
 				$select: {
 					$from: 'people',
-					$columns: [
-						{ peopleData: { $jsonBuildObject: { firstName: 'John', lastName: 'Doe' } } }
-			 		]
+					$columns: {
+						peopleData: { $jsonBuildObject: { firstName: 'John', lastName: 'Doe' } }
+			 		}
 				}
 			});
 
-			expect(query).to.be.instanceOf(SQLQuery);
-			expect(query.sql).to.equal('SELECT json_build_object(\'firstName\', $1, \'lastName\', $2) AS "peopleData" FROM "people"');
-			expect(query.values.length).to.equal(2);
-			expect(query.values[0]).to.equal('John');
-			expect(query.values[1]).to.equal('Doe');
+			//expect(query).to.be.instanceOf(SQLQuery);
+			expect(query.sql).to.equal('SELECT json_build_object($1, $2, $3, $4) AS "peopleData" FROM "people"');
+			expect(query.values.length).to.equal(4);
+			expect(query.values[0]).to.equal('firstName');
+			expect(query.values[1]).to.equal('John');
+			expect(query.values[2]).to.equal('lastName');
+			expect(query.values[3]).to.equal('Doe');
 		});
 
 		it('should return json_build_object function with column data', function() {
+			var sqlbuilder   = new SQLBuilder('postgreSQL');
 			var query = sqlbuilder.build({
 				$select: {
 					$from: 'people',
-					$columns: [
-						{ peopleData: {
+					$columns: {
+						peopleData: {
 							$jsonBuildObject: {
 								firstName: { $column: 'first_name' },
 								lastName: { $column: 'last_name' }
 							}
-						} }
-			 		]
+						}
+			 		}
 				}
 			});
 
-			expect(query).to.be.instanceOf(SQLQuery);
-			expect(query.sql).to.equal('SELECT json_build_object(\'firstName\', "first_name", \'lastName\', "last_name") AS "peopleData" FROM "people"');
-			expect(query.values.length).to.equal(0);
+			//expect(query).to.be.instanceOf(SQLQuery);
+			expect(query.sql).to.equal('SELECT json_build_object($1, "first_name", $2, "last_name") AS "peopleData" FROM "people"');
+			expect(query.values.length).to.equal(2);
+			expect(query.values[0]).to.equal('firstName');
+			expect(query.values[1]).to.equal('lastName');
 		});
 	});
 
 	describe('Upsert with using $conflict', function() {
 		it('should return INSERT INTO with ON CONFLICT ... DO NOTHING statement', function() {
+			var sqlbuilder   = new SQLBuilder('postgreSQL');
 			var query = sqlbuilder.build({
 				$insert: {
-					$into: 'people',
+					$table: 'people',
 					$documents: {
 						first_name: 'John',
 						last_name: 'Doe',
@@ -163,7 +174,7 @@ describe('postgreSQL Standard', function() {
 				},
 			});
 
-			expect(query).to.be.instanceOf(SQLQuery);
+			//expect(query).to.be.instanceOf(SQLQuery);
 			expect(query.sql).to.equal('INSERT INTO "people" ("first_name", "last_name", "age") VALUES ($1, $2, $3) ON CONFLICT ("first_name", "last_name") DO NOTHING');
 			expect(query.values.length).to.equal(3);
 			expect(query.values[0]).to.equal('John');
@@ -172,9 +183,10 @@ describe('postgreSQL Standard', function() {
 		});
 
 		it('should return INSERT INTO with ON CONFLICT ON CONSTRAINT ... DO NOTHING statement', function() {
+			var sqlbuilder   = new SQLBuilder('postgreSQL');
 			var query = sqlbuilder.build({
 				$insert: {
-					$into: 'people',
+					$table: 'people',
 					$documents: {
 						first_name: 'John',
 						last_name: 'Doe',
@@ -187,7 +199,7 @@ describe('postgreSQL Standard', function() {
 				},
 			});
 
-			expect(query).to.be.instanceOf(SQLQuery);
+			//expect(query).to.be.instanceOf(SQLQuery);
 			expect(query.sql).to.equal('INSERT INTO "people" ("first_name", "last_name", "age") VALUES ($1, $2, $3) ON CONFLICT ON CONSTRAINT "unique_constraint" DO NOTHING');
 			expect(query.values.length).to.equal(3);
 			expect(query.values[0]).to.equal('John');
@@ -196,9 +208,10 @@ describe('postgreSQL Standard', function() {
 		});
 
 		it('should return INSERT INTO with ON CONFLICT ... DO UPDATE statement', function() {
+			var sqlbuilder   = new SQLBuilder('postgreSQL');
 			var query = sqlbuilder.build({
 				$insert: {
-					$into: 'people',
+					$table: 'people',
 					$documents: {
 						first_name: 'John',
 						last_name: 'Doe',
@@ -215,7 +228,7 @@ describe('postgreSQL Standard', function() {
 				},
 			});
 
-			expect(query).to.be.instanceOf(SQLQuery);
+			//expect(query).to.be.instanceOf(SQLQuery);
 			expect(query.sql).to.equal('INSERT INTO "people" ("first_name", "last_name", "age") VALUES ($1, $2, $3) ON CONFLICT ("last_name") DO UPDATE SET "first_name" = $4, "last_name" = $5, "age" = $6');
 			expect(query.values.length).to.equal(6);
 			expect(query.values[0]).to.equal('John');
@@ -228,10 +241,37 @@ describe('postgreSQL Standard', function() {
 	});
 
 	it('should return a quick-Test statement', function() {
+		var sqlbuilder   = new SQLBuilder('postgreSQL');
 		var query = sqlbuilder.build({
-
+			$select: {
+				services: { $jsonbObjectAgg: { '~~servicedata.key': '~~servicedata.value' } },
+				$from: {
+					data: {
+						$select: {
+							services: { $jsonbBuildObject: { '~~users_loginservices.service_id': '~~users_loginservices.data' } },
+							$from: 'meteor.users_loginservices'
+						}
+					},
+					servicedata: {
+						$jsonbEach: '~~data.services'
+					}
+				}
+			}
 		});
-		console.log(query.sql);
+
+		expect(query.sql).to.equal('SELECT jsonb_object_agg("servicedata"."key", "servicedata"."value") AS "services" FROM (SELECT jsonb_build_object("users_loginservices"."service_id", "users_loginservices"."data") AS "services" FROM "meteor"."users_loginservices") AS "data", jsonb_each("data"."services") AS "servicedata"');
+	});
+
+	it('should return SELECT string_agg(...) AS test', function() {
+		/*var query = sqlbuilder.build({
+			$select: {
+				test: { $stringAgg: { $expression: { $column: 'first_name' }, $delimiter: ", " } },
+				$from: 'people'
+			}
+		});
+		expect(query.sql).to.equal('SELECT string_agg("first_name", $1) AS "test" FROM "people"');
+		expect(query.values.length).to.equal(1);
+		expect(query.values[0]).to.equal(", ");*/
 	});
 
 });

@@ -21,7 +21,7 @@ describe('ANSI Query Operators', function() {
 					}
 				});
 
-				expect(query).to.be.instanceOf(SQLQuery);
+				//expect(query).to.be.instanceOf(SQLQuery);
 				expect(query.sql).to.equal('UPDATE `people` SET `first_name` = ?, `last_name` = ?');
 				expect(query.values.length).to.equal(2);
 				expect(query.values[0]).to.equal('John');
@@ -42,7 +42,7 @@ describe('ANSI Query Operators', function() {
 					}
 				});
 
-				expect(query).to.be.instanceOf(SQLQuery);
+				//expect(query).to.be.instanceOf(SQLQuery);
 				expect(query.sql).to.equal('UPDATE `people` SET `first_name` = ?, `last_name` = ? WHERE `age` >= ?');
 				expect(query.values.length).to.equal(3);
 				expect(query.values[0]).to.equal('John');
