@@ -10,16 +10,10 @@ At this time we will support additional language helpers and operators for:
 - [ ] Oracle
 - [ ] Microsoft SQL Server
 
-For further details on the language specific helpers and operators have a look at the complete
-documentation at [https://planetarydev.github.io/json-sql-builder/](https://planetarydev.github.io/json-sql-builder/).
 
 ## Current Dev Stage
 
-The developing of this module is currently still in work, for details have a look at the [roadmap](https://planetarydev.github.io/json-sql-builder/roadmap.html). If you like to support the current development feel free and contribute on github. Any pull requests are welcome if you supply:
-- Tests
-- Documentation
-- Support backward compatibility
-
+This repo was no longer maintained, because of a new Version of json-sql-builder. Have a look at [json-sql-builder2](https://github.com/planetarydev/json-sql-builder2)
 
 ## Install
 
